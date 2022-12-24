@@ -25,7 +25,7 @@ function playRound(playerSelection, computerSelection) {
   ) {
     computerScore += 1;
     return `Computer's choise is ${computerSelection}! 
-    ${computerSelection} beats your ${playerSelection}! 
+    His ${computerSelection} beats your ${playerSelection}! 
     The score is ${userScore} - ${computerScore}`;
   } else if (
     (playerSelection.toLowerCase() === "paper" &&
@@ -37,7 +37,7 @@ function playRound(playerSelection, computerSelection) {
   ) {
     userScore += 1;
     return `Computer's choise is ${computerSelection}! 
-    Your ${playerSelection} beats ${computerSelection}! 
+    Your ${playerSelection} beats his ${computerSelection}! 
     The score is ${userScore} - ${computerScore}`;
   } else {
     return `Computer's choise is also ${computerSelection}!
@@ -45,18 +45,11 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 
-function displayRoundResult() {
-  document.getElementById("result").textContent = playRound(
-    playerSelection,
-    computerSelection
-  );
-}
-
-function calculateFinalWinner() {
+function calculateWinner() {
   if (userScore > computerScore) {
     return (document.getElementById(
       "result"
-    ).textContent = `User wins! The result is ${userScore} - ${computerScore}!`);
+    ).textContent = `You win! The result is ${userScore} - ${computerScore}!`);
   } else {
     return (document.getElementById(
       "result"
@@ -65,13 +58,17 @@ function calculateFinalWinner() {
 }
 
 const buttons = document.getElementsByTagName("button");
+
 for (let button of buttons) {
   button.addEventListener("click", () => {
     playerSelection = button.textContent;
     computerSelection = getComputerChoice();
-    displayRoundResult();
+    document.getElementById("result").textContent = playRound(
+      playerSelection,
+      computerSelection
+    );
     if (userScore === 5 || computerScore === 5) {
-      calculateFinalWinner();
+      calculateWinner();
       document.getElementById("buttons").style.display = "none";
     }
   });
