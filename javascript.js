@@ -1,3 +1,6 @@
+let computerScore = 0;
+let userScore = 0;
+
 function getComputerChoice() {
   let computerSelection;
   let randomChoise = Math.floor(Math.random() * 3);
@@ -11,80 +14,65 @@ function getComputerChoice() {
   return computerSelection;
 }
 
-function getUserChoise() {
-  let playerSelection = prompt("Enter your choise:");
-  while (
-    playerSelection.toLowerCase() !== "rock" &&
-    playerSelection.toLowerCase() !== "scissors" &&
-    playerSelection.toLowerCase() !== "paper"
-  ) {
-    console.log("Enter Rock, Paper or Scissors!");
-    console.log;
-    playerSelection = prompt("Enter your choise:");
-  }
-  return playerSelection;
-}
-
-function playRound() {
-  const computerSelection = getComputerChoice();
-  let playerSelection = getUserChoise();
+function playRound(playerSelection, computerSelection) {
   if (
-    playerSelection.toLowerCase() === "rock" &&
-    computerSelection.toLowerCase() === "paper"
+    (playerSelection.toLowerCase() === "rock" &&
+      computerSelection.toLowerCase() === "paper") ||
+    (playerSelection.toLowerCase() === "paper" &&
+      computerSelection.toLowerCase() === "scissors") ||
+    (playerSelection.toLowerCase() === "scissors" &&
+      computerSelection.toLowerCase() === "rock")
   ) {
-    return "You Lose! Paper beats rock!";
+    computerScore += 1;
+    return `Computer's choise is ${computerSelection}! 
+    ${computerSelection} beats your ${playerSelection}! 
+    The score is ${userScore} - ${computerScore}`;
   } else if (
-    playerSelection.toLowerCase() === "paper" &&
-    computerSelection.toLowerCase() === "rock"
+    (playerSelection.toLowerCase() === "paper" &&
+      computerSelection.toLowerCase() === "rock") ||
+    (playerSelection.toLowerCase() === "scissors" &&
+      computerSelection.toLowerCase() === "paper") ||
+    (playerSelection.toLowerCase() === "rock" &&
+      computerSelection.toLowerCase() === "scissors")
   ) {
-    return "You Win! Paper beats rock!";
-  } else if (
-    playerSelection.toLowerCase() === "scissors" &&
-    computerSelection.toLowerCase() === "paper"
-  ) {
-    return "You Win! Scissors beats paper!";
-  } else if (
-    playerSelection.toLowerCase() === "paper" &&
-    computerSelection.toLowerCase() === "scissors"
-  ) {
-    return "You Lose! Scissors beats paper!";
-  } else if (
-    playerSelection.toLowerCase() === "rock" &&
-    computerSelection.toLowerCase() === "scissors"
-  ) {
-    return "You Win! Rock beats scissors!";
-  } else if (
-    playerSelection.toLowerCase() === "scissors" &&
-    computerSelection.toLowerCase() === "rock"
-  ) {
-    return "You Lose! Rock beats scissors!";
+    userScore += 1;
+    return `Computer's choise is ${computerSelection}! 
+    Your ${playerSelection} beats ${computerSelection}! 
+    The score is ${userScore} - ${computerScore}`;
   } else {
-    return "It's a tie!";
+    return `Computer's choise is also ${computerSelection}!
+    It's a tie! The score is ${userScore} - ${computerScore}`;
   }
 }
 
-function game() {
-  let computerScore = 0;
-  let userScore = 0;
-  for (let i = 0; i < 5; i++) {
-    const round = playRound();
-    console.log(round);
-    if (round.includes("You Win!")) {
-      userScore += 1;
-    } else if (round.includes("You Lose!")) {
-      computerScore += 1;
-    }
+function displayRoundResult() {
+  document.getElementById("result").textContent = playRound(
+    playerSelection,
+    computerSelection
+  );
+}
 
-    console.log(`The score is ${userScore} - ${computerScore}`);
-    console.log();
-  }
+function calculateFinalWinner() {
   if (userScore > computerScore) {
-    console.log("You are the winner! Congrats!");
-  } else if (userScore < computerScore) {
-    console.log("You lose!");
+    return (document.getElementById(
+      "result"
+    ).textContent = `User wins! The result is ${userScore} - ${computerScore}!`);
   } else {
-    console.log("It's a tie!");
+    return (document.getElementById(
+      "result"
+    ).textContent = `Computer wins! The final score is ${userScore} - ${computerScore}`);
   }
 }
 
-game();
+const buttons = document.getElementsByTagName("button");
+for (let button of buttons) {
+  button.addEventListener("click", () => {
+    playerSelection = button.textContent;
+    computerSelection = getComputerChoice();
+    displayRoundResult();
+    if (userScore === 5 || computerScore === 5) {
+      calculateFinalWinner();
+      document.getElementById("buttons").style.display = "none";
+    }
+  });
+}
