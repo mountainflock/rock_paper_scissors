@@ -47,13 +47,9 @@ function playRound(playerSelection, computerSelection) {
 
 function calculateWinner() {
   if (userScore > computerScore) {
-    return (document.getElementById(
-      "result"
-    ).textContent = `You win! The result is ${userScore} - ${computerScore}!`);
+    return `You win! The result is ${userScore} - ${computerScore}!`;
   } else {
-    return (document.getElementById(
-      "result"
-    ).textContent = `Computer wins! The final score is ${userScore} - ${computerScore}`);
+    return `Computer wins! The final score is ${userScore} - ${computerScore}`;
   }
 }
 
@@ -68,7 +64,8 @@ for (let button of buttons) {
       computerSelection
     );
     if (userScore === 5 || computerScore === 5) {
-      calculateWinner();
+      const winner = calculateWinner();
+      document.getElementById("result").textContent = winner;
       document.getElementById("buttons").style.display = "none";
     }
   });
