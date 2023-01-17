@@ -66,7 +66,8 @@ for (let button of buttons) {
     if (userScore === 5 || computerScore === 5) {
       const winner = calculateWinner();
       document.getElementById("result").textContent = winner;
-      document.getElementById("buttons").style.display = "none";
+      const buttonsContainer = document.getElementById("buttons");
+      buttonsContainer.parentNode.removeChild(buttonsContainer);
     }
   });
 }
