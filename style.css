@@ -22,17 +22,6 @@ body {
   padding: 4px 6px;
 }
 
-#result::after {
-  content: "";
-  width: 10px;
-  height: 10px;
-  background-color: lightblue;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  transform: translate(-6px, 10px);
-}
-
 #game {
   display: flex;
   flex-direction: column;
